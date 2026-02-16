@@ -24,9 +24,9 @@ export default {
     clickItem(item) {
       if ( this.$parent.bulk.enable ) {
         if ( this.$parent.bulk.ids[item.id] ) {
-          this.$delete(this.$parent.bulk.ids, item.id);
+          delete this.$parent.bulk.ids[item.id];
         } else {
-          this.$set(this.$parent.bulk.ids, item.id, item);
+          this.$parent.bulk.ids[item.id] = item;
         }
       } else {
         if ( this.$parent.field ) {

@@ -46,16 +46,16 @@ export default {
     },
 
     changeBulk() {
-      this.$set(this.$parent.bulk, 'ids', {});
+      this.$parent.bulk.ids = {};
       this.$parent.bulk.enable = !this.$parent.bulk.enable;
     },
 
     bulkAll() {
       if ( this.$parent.bulkLen() === this.$parent.items.array.length ) {
-        this.$set(this.$parent.bulk, 'ids', {});
+        this.$parent.bulk.ids = {};
       } else {
         this.$parent.items.array.forEach(item => {
-          this.$set(this.$parent.bulk.ids, item.id, item);
+          this.$parent.bulk.ids[item.id] = item;
         });
       }
     },

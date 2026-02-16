@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     changeArray(array) {
-      this.$set(this, 'array', array || []);
+      this.array = array || [];
       if ( this.handler ) this.handler(array);
     },
     remove(num) {
@@ -37,7 +37,7 @@ export default {
       if ( Array.isArray(this.field.value) ) this.array = this.field.value;
     } catch (e) {}
   },
-  beforeDestroy() {
+  beforeUnmount() {
     Nova.$off(`nmlSelectFiles[${this.field.attribute}]`);
   }
 }

@@ -1,32 +1,35 @@
-Nova.booting((Vue, router, store) => {
-  Vue.component('index-media-library-field', require('./field/Index/'));
-  Vue.component('detail-media-library-field', require('./field/Detail/'));
-  Vue.component('form-media-library-field', require('./field/Form/'));
+import IndexField from "./field/Index/index.vue";
+import DetailField from "./field/Detail/index.vue";
+import FormField from "./field/Form/index.vue";
+import Tool from "./tool/index.vue";
 
-  router.addRoutes([
-    {
-      name: 'nova-media-library',
-      path: '/media-library',
-      component: require('./tool/'),
-    },
-  ]);
+Nova.booting((app, router, store) => {
+  app.component("index-media-library-field", IndexField);
+  app.component("detail-media-library-field", DetailField);
+  app.component("form-media-library-field", FormField);
 
-  window.nmlToastHook = e => {
-    if ( 422 === e.response.status && e.response.data.message )
-      Vue.prototype.$toasted.show(e.response.data.message, { type: 'error' })
+  router.addRoute({
+    name: "nova-media-library",
+    path: "/media-library",
+    component: Tool,
+  });
+
+  window.nmlToastHook = (e) => {
+    if (422 === e.response?.status && e.response.data?.message) {
+      Nova.$toast?.error(e.response.data.message);
+    }
   };
 });
 
-
-if ('object' === typeof Nova.config.novaMediaLibrary) {
-  if (Nova.config.novaMediaLibrary.store === 'folders') {
-    Nova.request().get('/nova-vendor/nova-media-library/folders').then(r => {
-      Object.assign(Nova.config.novaMediaLibrary, { folders: r.data })
-    })
+if ("object" === typeof Nova.config.novaMediaLibrary) {
+  if (Nova.config.novaMediaLibrary.store === "folders") {
+    Nova.request()
+      .get("/nova-vendor/nova-media-library/folders")
+      .then((r) => {
+        Object.assign(Nova.config.novaMediaLibrary, { folders: r.data });
+      });
   }
-  if ('object' === typeof Nova.config.novaMediaLibrary.lang) {
-    Object.assign(Nova.config.translations, Nova.config.novaMediaLibrary.lang)
+  if ("object" === typeof Nova.config.novaMediaLibrary.lang) {
+    Object.assign(Nova.config.translations, Nova.config.novaMediaLibrary.lang);
   }
 }
-
-//document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');

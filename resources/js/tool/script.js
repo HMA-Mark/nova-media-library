@@ -82,7 +82,7 @@ export default {
       this.loading = true;
       Nova.request().post('/nova-vendor/nova-media-library/delete', { ids: ids }).then(r => {
         this.popup = null;
-        this.$set(this.bulk, 'ids', {});
+        this.bulk.ids = {};
         this.clearData();
         this.get();
         this.loading = false;
@@ -121,7 +121,7 @@ export default {
     if ( !this.field && wheel ) document.addEventListener(wheel, this.scroller);
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if ( !this.field && wheel ) document.removeEventListener(wheel, this.scroller);
   }
 }
