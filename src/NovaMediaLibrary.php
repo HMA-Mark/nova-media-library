@@ -3,11 +3,11 @@
 namespace ClassicO\NovaMediaLibrary;
 
 use ClassicO\NovaMediaLibrary\Core\Helper;
+use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class NovaMediaLibrary extends Tool
 {
@@ -39,7 +39,7 @@ class NovaMediaLibrary extends Tool
      *
      * @return \Laravel\Nova\Menu\MenuSection
      */
-    public function menu(NovaRequest $request)
+    public function menu(Request $request)
     {
         return MenuSection::make(__('Media Library'), [
             MenuItem::make(__('Media Library'), '/media-library'),
