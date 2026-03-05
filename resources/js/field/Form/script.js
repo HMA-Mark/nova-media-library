@@ -20,18 +20,26 @@ export default {
       this.value = this.field.value || null
     },
     fill(formData) {
-      let data = null;
+      let data = null
 
-      if ( this.value ) {
-        if ( this.field.nmlArray && Array.isArray(this.value) ) {
-          data = this.value.map(item => item.id);
-        } else if ( !this.field.nmlArray && 'object' === typeof this.value && this.value.id ) {
-          data = this.value.id;
+      if (this.value) {
+        if (this.field.nmlArray && Array.isArray(this.value)) {
+          data = this.value.map(item => item.id)
+        } else if (
+          !this.field.nmlArray &&
+          typeof this.value === 'object' &&
+          this.value.id
+        ) {
+          data = this.value.id
         }
-        if ( Array.isArray(data) ) data = JSON.stringify(data);
+
+        if (Array.isArray(data)) {
+          data = JSON.stringify(data)
+        }
       }
 
-      formData.append(this.field.attribute, data);
+      // Nova 5: only append if the field is visible
+      this.fillIfVisible(formData, this.field.attribute, data)
     },
     handleChange(value) {
       this.value = value
