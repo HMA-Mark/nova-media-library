@@ -3,16 +3,12 @@ import DetailField from "./field/Detail/index.vue";
 import FormField from "./field/Form/index.vue";
 import Tool from "./tool/index.vue";
 
-Nova.booting((app, router, store) => {
+Nova.inertia("NovaMediaLibrary", Tool);
+
+Nova.booting((app, store) => {
   app.component("index-media-library-field", IndexField);
   app.component("detail-media-library-field", DetailField);
   app.component("form-media-library-field", FormField);
-
-  router.addRoute({
-    name: "nova-media-library",
-    path: "/media-library",
-    component: Tool,
-  });
 
   window.nmlToastHook = (e) => {
     if (422 === e.response?.status && e.response.data?.message) {

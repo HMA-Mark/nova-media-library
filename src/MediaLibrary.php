@@ -22,22 +22,22 @@ class MediaLibrary extends Field
 	    return $item;
     }
 
-    public function resolve($resource, $attribute = null) {
+    public function resolve($resource, ?string $attribute = null): void {
 	    parent::resolve( $resource, $attribute );
-	    if ( !$this->value ) return $this->value = null;
+	    if ( !$this->value ) { $this->value = null; return; }
 
 	    $value = $this->value;
 	    $this->value = null;
 	    $data = Core\Model::find($value);
 
 	    if ( is_array($value) ) {
-	    	if ( !count($data) ) return $this->value = null;
+	    	if ( !count($data) ) { $this->value = null; return; }
 		    $data = $data->keyBy('id');
 		    $this->value = [];
 		    foreach ($value as $i)
 		    	if ( isset($data[$i]) ) $this->value[] = $data[$i];
 	    } else {
-	    	if ( !$data ) return $this->value = null;
+	    	if ( !$data ) { $this->value = null; return; }
 		    $this->value = $data;
 	    }
 
