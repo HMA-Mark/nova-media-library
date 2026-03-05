@@ -1,7 +1,4 @@
-import { copy } from 'v-copy';
-
 export default {
-  directives: { copy },
   data() {
     return {
       folder: null
@@ -50,9 +47,48 @@ export default {
         window.nmlToastHook(e);
       });
     },
-    onCopy() {
-      this.$toasted.show(this.__('URL has been copied'), { type: 'success' });
-    }
+    copyUrlToClipboard(url) {
+      if (!url) {
+        return;
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          this.$toasted.show(this.__('URL has been copied'), { type: 'success' });
+        }).catch(() => {
+          this.$toasted.show(this.__('Unable to copy URL'), { type: 'error' });
+        });
+        return;
+      }
+
+      const textarea = document.createElement('textarea');
+      textarea.value = url;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+
+      const selected = document.getSelection().rangeCount > 0
+        ? document.getSelection().getRangeAt(0)
+        : null;
+
+      textarea.select();
+
+      try {
+        document.execCommand('copy');
+        this.$toasted.show(this.__('URL has been copied'), { type: 'success' });
+      } catch (e) {
+        this.$toasted.show(this.__('Unable to copy URL'), { type: 'error' });
+      }
+
+      document.body.removeChild(textarea);
+
+      if (selected) {
+        const selection = document.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(selected);
+      }
+    },
   },
 
   mounted() {

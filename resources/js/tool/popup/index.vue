@@ -64,7 +64,7 @@
         <div class="w-3/4 py-4">
           <a class="text-primary font-bold no-underline" :href="$parent.item.url" target="_blank">{{ __('Open') }}</a>
           <button type="button" class="text-80 font-bold no-underline float-right"
-                  v-copy="$parent.item.url" v-copy:callback="onCopy">{{ __('Copy') }}</button>
+                  @click="copyUrlToClipboard($parent.item.url)">{{ __('Copy') }}</button>
         </div>
       </div>
 
