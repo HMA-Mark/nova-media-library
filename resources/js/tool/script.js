@@ -25,8 +25,25 @@ export default {
   },
 
   data() {
-    let config = window.Nova.config.novaMediaLibrary;
-    config.display = 'list' === localStorage.getItem('nml-display') ? 'list' : 'gallery';
+    const novaConfig =
+      (window.Nova &&
+        window.Nova.config &&
+        window.Nova.config.novaMediaLibrary) ||
+      {};
+
+    const config = {
+      display:
+        'list' === localStorage.getItem('nml-display') ? 'list' : 'gallery',
+      store: novaConfig.store || 'together',
+      can_private: novaConfig.can_private || false,
+      disk: novaConfig.disk,
+      front_crop: novaConfig.front_crop || false,
+      lang: novaConfig.lang || {},
+      accept: novaConfig.accept || [],
+      types: novaConfig.types || [],
+      folders: novaConfig.folders || [],
+    };
+
     return {
       config,
 
